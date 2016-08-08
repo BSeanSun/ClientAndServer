@@ -1,0 +1,32 @@
+#! /usr/bin/env python
+from socket import *
+from time import ctime
+
+HOST = ''
+PORT = 21701
+BUFSIZ = 1024
+ADDR = (HOST, PORT)
+
+tcpSerSock = socket(AF_INET, SOCK_STREAM)
+
+tcpSerSock.settimeout(100)
+tcpSerSock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
+tcpSerSock.bind(ADDR)
+tcpSerSock.listen(5)
+
+while True:
+	try:
+		print 'waiting for connection'
+		tcpCliSock, addr = tcpSerSock.accept()
+		print '...connected from: ', addr
+	
+		while True:
+			data = tcpCliSock.recv(BUFSIZ)
+			if not data:
+				break
+			#tcpCliSock.send('[%s] %s' % (ctime(), data))
+			print data
+	except KeyboardInterrupt:	
+		#tcpCliSock.close()
+		tcpSerSock.close()
+		exit(0)
