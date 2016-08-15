@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 from socket import *
 from time import ctime
-import sqlite3
+#import sqlite3
 
 HOST = ''
 PORT = 12348
@@ -10,7 +10,7 @@ ADDR = (HOST, PORT)
 
 tcpSerSock = socket(AF_INET, SOCK_STREAM)
 
-tcpSerSock.settimeout(100)
+tcpSerSock.settimeout(1)
 tcpSerSock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 tcpSerSock.bind(ADDR)
 tcpSerSock.listen(5)
@@ -18,7 +18,7 @@ tcpSerSock.listen(5)
 while True:
     try:
         print 'waiting for connection'
-        tcpCliSock, addr = tcpSerSock.accept()
+        tcpCliSock, addr = tcpSerSock.accept() #create and bind client
         print '...connected from: ', addr
         while True:
             data = tcpCliSock.recv(BUFSIZ)
@@ -32,6 +32,6 @@ while True:
             #    break
             tcpCliSock.send('sentData')
     except KeyboardInterrupt:	
-        #tcpCliSock.close()
+        tcpCliSock.close()
         tcpSerSock.close()
         exit(0)
