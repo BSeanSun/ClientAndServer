@@ -1,9 +1,10 @@
 #! /usr/bin/env python
 from socket import *
 from time import ctime
+import sqlite3
 
 HOST = ''
-PORT = 21701
+PORT = 12348
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
@@ -15,18 +16,22 @@ tcpSerSock.bind(ADDR)
 tcpSerSock.listen(5)
 
 while True:
-	try:
-		print 'waiting for connection'
-		tcpCliSock, addr = tcpSerSock.accept()
-		print '...connected from: ', addr
-	
-		while True:
-			data = tcpCliSock.recv(BUFSIZ)
-			if not data:
-				break
-			#tcpCliSock.send('[%s] %s' % (ctime(), data))
-			print data
-	except KeyboardInterrupt:	
-		#tcpCliSock.close()
-		tcpSerSock.close()
-		exit(0)
+    try:
+        print 'waiting for connection'
+        tcpCliSock, addr = tcpSerSock.accept()
+        print '...connected from: ', addr
+        while True:
+            data = tcpCliSock.recv(BUFSIZ)
+            #if not data:
+            #	break
+            #tcpCliSock.send('[%s] %s' % (ctime(), data))
+            print data
+            #else:
+            #sentData = 'get'
+            #if not sentData:
+            #    break
+            tcpCliSock.send('sentData')
+    except KeyboardInterrupt:	
+        #tcpCliSock.close()
+        tcpSerSock.close()
+        exit(0)
