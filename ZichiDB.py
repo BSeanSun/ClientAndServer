@@ -7,15 +7,15 @@ class ZichiDB:
     c = conn.cursor()
 
     def __init__(self):
-        #pass
-        #global conn = sqlite3.connect('zichi.db')
+                #global conn = sqlite3.connect('zichi.db')
         #c = conn.cursor()
         #if os.path.isfile('zichi.db') == False:
         self.c.execute('''CREATE TABLE IF NOT EXISTS thidata
-	                 (date text, temp text, humidity text, illum real)''')
+	                 (temp real, humidity real, illum real)''')
         
     def insert(self, thi):
-        self.c.execute("INSERT INTO thidata VALUES (2006-01-05,25,60,600)")
+        temp, humid, illum = thi.split(' ')
+        self.c.execute("INSERT INTO thidata VALUES (?,?,?)", (temp, humid, illum))
 
     def printdata(self):
         
@@ -24,6 +24,8 @@ class ZichiDB:
 
     def send(self):
         dataSent = ''
-        for row in self.c.execute('SELECT * FROM thidata ORDER BY temp'):
-            dataSent = dataSent.join(row)
+        for row in self.c.execute('SELECT * FROM thidata'):
+            for col in range(0, len(row)):
+                dataSent = dataSent + str(row[col])+' '
+
         return dataSent

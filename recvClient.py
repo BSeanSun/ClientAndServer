@@ -6,7 +6,7 @@ import ZichiDB
 #import sqlite3
 
 HOST = ''
-PORT = 12349
+PORT = 12341
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
@@ -28,19 +28,21 @@ while True:
 
         while True:
             data = tcpCliSock.recv(BUFSIZ)
-            
+            #print type(data)
             #go back to the first while loop
             if not data:
             	break
             #tcpCliSock.send('[%s] %s' % (ctime(), data))
+            print data
             zdb.insert(data)
             zdb.printdata();
-            print data
+            
             #else:
             #sentData = 'get'
             #if not sentData:
             #    break
-            tcpCliSock.send(zdb.send())
+            cmd = zdb.send()
+            tcpCliSock.send(cmd)
     except KeyboardInterrupt:	
         tcpCliSock.close()
         tcpSerSock.close()
