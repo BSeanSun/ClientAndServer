@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 from socket import *
 from time import ctime
-import ZichiDB
-#import sqlite3
+import zichidb
+#from thread import *
 
 HOST = ''
-PORT = 12341
+PORT = 11223
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
@@ -16,7 +16,7 @@ tcpSerSock.settimeout(10)
 tcpSerSock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 tcpSerSock.bind(ADDR)
 tcpSerSock.listen(5)
-zdb = ZichiDB.ZichiDB()
+zdb = zichidb.zichidb()
 
 while True:
     try:
@@ -28,7 +28,6 @@ while True:
 
         while True:
             data = tcpCliSock.recv(BUFSIZ)
-            #print type(data)
             #go back to the first while loop
             if not data:
             	break
@@ -42,7 +41,7 @@ while True:
             #if not sentData:
             #    break
             cmd = zdb.send()
-            tcpCliSock.send(cmd)
+            tcpCliSock.sendall(cmd)
     except KeyboardInterrupt:	
         tcpCliSock.close()
         tcpSerSock.close()
