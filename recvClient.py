@@ -1,12 +1,12 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 from socket import *
-from time import ctime
+#from time import ctime
 import zichidb
-#from thread import *
+#import 
 
 HOST = ''
-PORT = 11223
+PORT = 11230
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
@@ -17,6 +17,9 @@ tcpSerSock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 tcpSerSock.bind(ADDR)
 tcpSerSock.listen(5)
 zdb = zichidb.zichidb()
+
+def Byte2Hex(byteStr):
+    return ' '.join(["%02X" % ord(x) for x in byteStr]).strip()
 
 while True:
     try:
@@ -32,16 +35,36 @@ while True:
             if not data:
             	break
             #tcpCliSock.send('[%s] %s' % (ctime(), data))
-            print data
-            zdb.insert(data)
-            zdb.printdata();
+            print type(data)
+            
+            #print data.decode("hex")
+            decodedHex = Byte2Hex(data)
+            
+            hexToInt = decodedHex.split(' ')
+            print hexToInt
+            for i in xrange(3,len(hexToInt)-1,1):
+                for j in xrange(4,len(hexToInt),1):
+                    #print int(hexToInt[i]*0x100+hexToInt[j],16)
+            
+                    print hexToInt[i],hexToInt[j]     
+            #for hex16 in hexToInt:
+                #print hex16
+            #    print int(hex16,16)
+            #if not hex16:
+            #    break
+            
+             
+            #    print int(hex16,16)
+                #hexToInt = hexToInt.append(int(hex16,16))
+            #zdb.insert(hexToInt)
+            #zdb.printdata();
             
             #else:
             #sentData = 'get'
             #if not sentData:
             #    break
-            cmd = zdb.send()
-            tcpCliSock.sendall(cmd)
+            #cmd = zdb.send()
+            #tcpCliSock.sendall(cmd)
     except KeyboardInterrupt:	
         tcpCliSock.close()
         tcpSerSock.close()
