@@ -21,9 +21,15 @@ class zichidb:
 
     def printdata(self):
         
-        for row in self.c.execute('SELECT * FROM thidata ORDER BY temp'):
+        for row in self.c.execute('SELECT * FROM thidata'):
             print row
-
+    
+    def checkTemp(self):
+        total = 0
+        for tmp in self.c.execute('SELECT temp FROM thidata DESC LIMIT 5'):
+            total = tmp + total
+        return total/5.0
+    
     def send(self):
         dataSent = ''
         for row in self.c.execute('SELECT * FROM thidata'):
