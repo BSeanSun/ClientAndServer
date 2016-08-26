@@ -3,7 +3,7 @@
 from socket import *
 
 HOST = '192.168.1.3'
-PORT = 21811
+PORT = 8080
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
