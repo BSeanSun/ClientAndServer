@@ -6,7 +6,7 @@ import zichidb
 #import 
 
 HOST = ''
-PORT = 11241
+PORT = 11242
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
@@ -59,17 +59,18 @@ while True:
             zdb.insert(thi)
             zdb.printdata()
             #if zdb.checkTemp() > 30:
-            #if True:
-            """    HOST = '192.168.1.3'
-                PORT = 8080
+            if True:
+                HOST = '192.168.1.5'
+                PORT = 12338
                 BUFSIZ = 1024
                 ADDR = (HOST, PORT)
 
-                tcpCliSock = socket(AF_INET, SOCK_STREAM)
+                rptorelay = socket(AF_INET, SOCK_STREAM)
                 print "client set"
-                tcpCliSock.connect(ADDR)
+                rptorelay.connect(ADDR)
                 print "connection established"  
-                tcpCliSock.send('hlkATat+GW=0,0 \r')     """ 
+                rptorelay.send('hlkATat+GW=0,0 \r')  
+                rptorelay.close()    
             #else:
             #sentData = 'get'
             #if not sentData:
@@ -78,6 +79,6 @@ while True:
             #tcpCliSock.sendall(cmd)
 #except KeyboardInterrupt:	
     finally:
-#tcpCliSock.close()
+        #rptorelay.close()
         tcpSerSock.close()
 #exit(0)
