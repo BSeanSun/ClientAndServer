@@ -34,9 +34,7 @@ while True:
             #go back to the first while loop
             if not data:
             	break
-            #tcpCliSock.send('[%s] %s' % (ctime(), data))
-            #print type(data)
-            
+                        
             #print data.decode("hex")
             decodedHex = Byte2Hex(data)
             
@@ -60,7 +58,18 @@ while True:
                 #hexToInt = hexToInt.append(int(hex16,16))
             zdb.insert(thi)
             zdb.printdata()
-            
+            #if zdb.checkTemp() > 30:
+            #if True:
+            """    HOST = '192.168.1.3'
+                PORT = 8080
+                BUFSIZ = 1024
+                ADDR = (HOST, PORT)
+
+                tcpCliSock = socket(AF_INET, SOCK_STREAM)
+                print "client set"
+                tcpCliSock.connect(ADDR)
+                print "connection established"  
+                tcpCliSock.send('hlkATat+GW=0,0 \r')     """ 
             #else:
             #sentData = 'get'
             #if not sentData:
