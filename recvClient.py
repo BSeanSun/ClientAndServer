@@ -3,10 +3,10 @@
 from socket import *
 #from time import ctime
 import zichidb
-#import 
+import realtimePlot
 
 HOST = ''
-PORT = 11242
+PORT = 11243
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
@@ -17,7 +17,8 @@ tcpSerSock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 tcpSerSock.bind(ADDR)
 tcpSerSock.listen(5)
 zdb = zichidb.zichidb()
-
+xList = [0]
+yList = [0]
 def Byte2Hex(byteStr):
     return ' '.join(["%02X" % ord(x) for x in byteStr]).strip()
 
@@ -28,7 +29,7 @@ while True:
         #create and bind client
         tcpCliSock, addr = tcpSerSock.accept() 
         print '...connected from: ', addr
-
+        #plt.draw()
         while True:
             data = tcpCliSock.recv(BUFSIZ)
             #go back to the first while loop
@@ -47,19 +48,20 @@ while True:
                 thi.append(res)
             if thi[0] < 300:
                 print thi[0]  
-            #for hex16 in hexToInt:
-                #print hex16
-            #    print int(hex16,16)
+            
             if not data:
                 break
-            
+            yList.append(thi[1]/100.0)
+            xList.append(xList[-1] + 1)
+            realtimePlot.realtimePlot(xList[-10:-1], yList[-10:-1])
              
             #    print int(hex16,16)
                 #hexToInt = hexToInt.append(int(hex16,16))
             zdb.insert(thi)
             zdb.printdata()
+            
             #if zdb.checkTemp() > 30:
-            if True:
+            """if True:
                 HOST = '192.168.1.5'
                 PORT = 12338
                 BUFSIZ = 1024
@@ -70,7 +72,7 @@ while True:
                 rptorelay.connect(ADDR)
                 print "connection established"  
                 rptorelay.send('hlkATat+GW=0,0 \r')  
-                rptorelay.close()    
+                rptorelay.close()   """ 
             #else:
             #sentData = 'get'
             #if not sentData:
