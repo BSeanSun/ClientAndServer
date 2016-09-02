@@ -6,7 +6,7 @@ import zichidb
 import realtimePlot
 
 HOST = ''
-PORT = 11243
+PORT = 11245
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
 
